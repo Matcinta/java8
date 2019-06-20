@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="src" path="Dates/src"/>
+	<classpathentry kind="src" path="DateTemps/src"/>
+	<classpathentry kind="src" path="GestionUtilisateur/src"/>
+	<classpathentry kind="src" path="Lambdas/src"/>
+	<classpathentry kind="src" path="Stream/src"/>
+	<classpathentry kind="src" path="tp1_solution"/>
+	<classpathentry kind="output" path="DateTemps/bin"/>
+</classpath>
