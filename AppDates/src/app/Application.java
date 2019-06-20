@@ -3,8 +3,11 @@ package app;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.Period;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
+import java.util.stream.Collectors;
 
 public class Application {
 	
@@ -27,18 +30,18 @@ public class Application {
 	
 	public void runApp() {
 		
-		int choix = 0;
-		int choix2 = 0;
-				
+		int choix = 0;				
 		
 		System.out.println("----------------- Bienvenue -----------------");
-		while (choix != 5) {
+		while (choix != 7) {
 			
 			System.out.println("\t1. Saisir une date");
 			System.out.println("\t2. Saisir un temps");
 			System.out.println("\t3. Saisir un temps et une date");
 			System.out.println("\t4. Afficher les éléments saisis");
-			System.out.println("\t5. Quitter");
+			System.out.println("\t5. Afficher le temps écoulé entre deux dates");
+			System.out.println("\t6. Afficher le temps écoulé entre deux temps");
+			System.out.println("\t7. Quitter");
 			System.out.println("----------------------------------------------");
 			System.out.println("Que souhaitez-vous faire? :");
 			choix = scanner.nextInt();
@@ -113,45 +116,19 @@ public class Application {
 				
 				
 			case 4:
-				while (choix2 != 4) {
-					
-					System.out.println("\t1. Afficher les dates saisies");
-					System.out.println("\t2. Afficher les temps saisis");
-					System.out.println("\t3. Afficher les temps et les dates saisis");
-					System.out.println("\t4. Revenir au menu précédent");
-					System.out.println("----------------------------------------------");
-					
-					System.out.println("Que souhaitez-vous faire? :");
-					choix2 = scanner.nextInt();
-					
-					switch(choix2) {
-					
-					case 1:
-						trierDates();				
-						break;
-						
-					case 2:
-						trierTemps();
-						break;
-						
-					case 3:
-						trierTpsDates();
-						break;
-						
-					case 4:
-						System.out.println("Retour au menu principal");
-						break;
-					default:
-						System.out.println("Je n'ai pas compris la requete");
-						break;
-					}
-					
-					
-				}
 				
-				
+				menuAffichage();
 				break;
+				
 			case 5:
+				deltaDates();
+				break;
+				
+			case 6:
+				deltaTemps();
+				break;
+				
+			case 7:
 				System.out.println("Fermeture de l'application");
 				break;
 			default:
@@ -175,12 +152,15 @@ public class Application {
 		LocalDate date4 = currentDate.withDayOfMonth(11).withYear(1994).withMonth(11);
 		LocalDate date5 = currentDate.withDayOfMonth(19).withYear(2019).withMonth(6);
 		LocalDate date6 = currentDate.withDayOfMonth(4).withYear(2005).withMonth(4);
+		LocalDate date7 = currentDate.withDayOfMonth(14).withYear(2013).withMonth(7);
 		listeDatesSaisies.add(date1);
 		listeDatesSaisies.add(date2);
 		listeDatesSaisies.add(date3);
 		listeDatesSaisies.add(date4);
 		listeDatesSaisies.add(date5);
 		listeDatesSaisies.add(date6);
+		listeDatesSaisies.add(date7);
+		
 	}
 
 	public void ajouterTemps() {
@@ -209,22 +189,27 @@ public class Application {
 		listeTempsDatesSaisis.add(dateTime3);
 	}
 	
-	public void trierDates() {
+	public void trierFiltrerDates() {
 		
 		int choix2 = 0;
 		
-		while (choix2 != 4) {
+		while (choix2 != 7) {
 			
 			System.out.println("\t1. Trier les dates par année");
 			System.out.println("\t2. Trier les dates sur le mois");
 			System.out.println("\t3. Trier les dates sur le jour");
-			System.out.println("\t4. Revenir au menu précédent");
+			System.out.println("\t4. Filtrer les dates par année");
+			System.out.println("\t5. Filtrer les dates sur le mois");
+			System.out.println("\t6. Filtrer les dates sur le jour");
+			System.out.println("\t7. Revenir au menu précédent");
 			System.out.println("----------------------------------------------");
 			
 			System.out.println("Que souhaitez-vous faire? :");
 			choix2 = scanner.nextInt();
+		
 			
 			switch(choix2) {
+			
 			case 1:
 				listeDatesSaisies.stream()
 					.sorted((d1, d2) -> d1.getYear() - (d2.getYear()))
@@ -242,6 +227,38 @@ public class Application {
 				.forEach(System.out::println);
 			break;
 			
+			case 4:
+				System.out.println("Saisir un filtre (annee): ");
+				int filtreUtilisateur = scanner.nextInt();
+				List<LocalDate> datesFiltrees = listeDatesSaisies.stream()
+					.filter(dateSaisie -> filtreUtilisateur == (dateSaisie.getYear()))
+					.collect(Collectors.toList());
+				if (!datesFiltrees.isEmpty())
+					System.out.println(datesFiltrees + "\n");
+				break;
+							
+			case 5:
+				System.out.println("Saisir un filtre (mois): ");
+				int filtreUtilisateur2 = scanner.nextInt();
+				List<LocalDate> datesFiltrees2 = listeDatesSaisies.stream()
+					.filter(dateSaisie -> filtreUtilisateur2 == (dateSaisie.getMonth().getValue()))
+					.collect(Collectors.toList());
+				if (!datesFiltrees2.isEmpty())
+					System.out.println(datesFiltrees2 + "\n");
+				
+			break;
+			
+			case 6:
+				System.out.println("Saisir un filtre (jour): ");
+				int filtreUtilisateur3 = scanner.nextInt();
+				List<LocalDate> datesFiltrees3 = listeDatesSaisies.stream()
+					.filter(dateSaisie -> filtreUtilisateur3 == (dateSaisie.getDayOfMonth()))
+					.collect(Collectors.toList());
+				if (!datesFiltrees3.isEmpty())
+					System.out.println(datesFiltrees3 + "\n");
+				
+			break;
+			
 			default:
 				System.out.println("Je n'ai pas compris la requete");
 				break;
@@ -250,15 +267,18 @@ public class Application {
 	}
 
 	
-	public void trierTemps() {
+	public void trierFiltrerTemps() {
 		int choix = 0;
 		
-		while (choix != 4) {
+		while (choix != 7) {
 			
 			System.out.println("\t1. Trier les temps par heure");
 			System.out.println("\t2. Trier les temps par minutes");
-			System.out.println("\t3. Trier les temps par secondesr");
-			System.out.println("\t4. Revenir au menu précédent");
+			System.out.println("\t3. Trier les temps par secondes");
+			System.out.println("\t4. Filtrer les temps par heure");
+			System.out.println("\t5. Filtrer les temps par minutes");
+			System.out.println("\t6. Filtrer les temps par secondes");
+			System.out.println("\t7. Revenir au menu précédent");
 			System.out.println("----------------------------------------------");
 			
 			System.out.println("Que souhaitez-vous faire? :");
@@ -282,6 +302,38 @@ public class Application {
 				.forEach(System.out::println);
 			break;
 			
+			case 4:
+				System.out.println("Saisir un filtre (heures): ");
+				int filtreUtilisateur = scanner.nextInt();
+				List<LocalTime> tempsFiltres = listeTempsSaisis.stream()
+					.filter(tempsSaisi -> filtreUtilisateur == (tempsSaisi.getHour()))
+					.collect(Collectors.toList());
+				if (!tempsFiltres.isEmpty())
+					System.out.println(tempsFiltres + "\n");
+				break;
+							
+			case 5:
+				System.out.println("Saisir un filtre (minutes): ");
+				int filtreUtilisateur2 = scanner.nextInt();
+				List<LocalTime> tempsFiltres2 = listeTempsSaisis.stream()
+					.filter(tempsSaisi -> filtreUtilisateur2 == (tempsSaisi.getMinute()))
+					.collect(Collectors.toList());
+				if (!tempsFiltres2.isEmpty())
+					System.out.println(tempsFiltres2 + "\n");
+				break;
+				
+			
+			case 6:
+				System.out.println("Saisir un filtre (secondes): ");
+				int filtreUtilisateur3 = scanner.nextInt();
+				List<LocalTime> tempsFiltres3 = listeTempsSaisis.stream()
+					.filter(tempsSaisi -> filtreUtilisateur3 == (tempsSaisi.getSecond()))
+					.collect(Collectors.toList());
+				if (!tempsFiltres3.isEmpty())
+					System.out.println(tempsFiltres3 + "\n");
+				break;
+
+			
 			default:
 				System.out.println("Je n'ai pas compris la requete");
 				break;
@@ -290,7 +342,7 @@ public class Application {
 		
 	}
 	
-	public void trierTpsDates() {
+	public void trierFiltrerTpsDates() {
 		int choix = 0;
 		
 		while (choix != 7) {
@@ -300,7 +352,7 @@ public class Application {
 			System.out.println("\t3. Trier les dates sur le jour");
 			System.out.println("\t4. Trier les temps par heure");
 			System.out.println("\t5. Trier les temps par minutes");
-			System.out.println("\t6. Trier les temps par secondesr");
+			System.out.println("\t6. Trier les temps par secondes");
 			System.out.println("\t7. Revenir au menu précédent");
 			System.out.println("----------------------------------------------");
 			
@@ -348,16 +400,70 @@ public class Application {
 		}
 	}
 	
-	public void filtrerDates() {
+	public void menuAffichage() {
+		
+		int choix = 0;
+		
+		while (choix != 4) {
+			
+			System.out.println("\t1. Afficher les dates saisies");
+			System.out.println("\t2. Afficher les temps saisis");
+			System.out.println("\t3. Afficher les temps et les dates saisis");
+			System.out.println("\t4. Revenir au menu précédent");
+			System.out.println("----------------------------------------------");
+			
+			System.out.println("Que souhaitez-vous faire? :");
+			choix = scanner.nextInt();
+			
+			switch(choix) {
+			
+			case 1:
+				trierFiltrerDates();				
+				break;
+				
+			case 2:
+				trierFiltrerTemps();
+				break;
+				
+			case 3:
+				trierFiltrerTpsDates();
+				break;	
+				
+			case 4:
+				System.out.println("Retour au menu principal");
+				break;
+			default:
+				System.out.println("Je n'ai pas compris la requete");
+				break;
+			}
+			
+			
+		}
+	}
+	
+	public void deltaDates() {
+		
+	
+		
+		System.out.println(listeDatesSaisies);
+		System.out.println("Choisissez deux dates pour lesquelles vous souhaitez calculer la difference");
+		
+		System.out.println("1ère date: ");
+		int date1 = scanner.nextInt();
+				
+		System.out.println("2ème date: ");
+		int date2 = scanner.nextInt();
+		
+		
+		
+//		Period period = Period.between(date1, date2);
+//		System.out.println(period.toString());
+		
+		
 		
 	}
 	
-	public void filtrerTemps() {
-		
-	}
-
-	
-	public void filtrerTpsDates() {
+	public void deltaTemps () {
 		
 	}
 }
