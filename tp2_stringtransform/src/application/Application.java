@@ -28,9 +28,17 @@ public class Application {
 //        retourner les chaînes “initial” et “modificateur” alternées.
 //        Exemple : transform(“Hello”, “zip”, “World”) doit
 //        retourner “HWeolrllod”;
-        System.out.println(test.transform("chat", "zip", "pitoo"));
+        System.out.println(test.transform("chat", "zip", "rat"));
+        System.out.println(test.transform("rat", "zip", "chien"));
         
+//        e. Si “operation” vaut “reverse”, la méthode “transform”
+//        retourne la chaine “initial” à l’envers.
+        System.out.println(test.transform("Hello", "reverse", "World"));
         
+//        f. Si “operation” vaut “tacnoc”, la méthode “transform”
+//        retourne la concaténation de “modificateur” à l’envers et
+//        de “initial” à l’envers.
+        System.out.println(test.transform("chat", "tacnoc", "rat"));
         
     }
     
